@@ -1,2 +1,2 @@
-#JQC: Java Quantum Computing
+# JQC: Java Quantum Computing
 
