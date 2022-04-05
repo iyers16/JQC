@@ -1,7 +1,6 @@
 package com.example.jqc;
 
 import java.util.Scanner;
-// import java.lang.Math;
 
 public class Qubit {
     private Complex[][] stateVector;
@@ -61,44 +60,6 @@ public class Qubit {
     public String getStateHistory() {
         return this.stateHistory;
     }
-    
-    // public void addPauliX() {
-        
-        // double[][] x = {
-        //                 {0, 1},
-        //                 {1, 0}
-        //                 };
-    //     double[][] ans = Matrix.multiply(x, this.stateVector);
-
-    //     this.stateVector = ans;
-        
-    // }
-
-    // public void addPauliZ() {
-        
-    //     double[][] y = {
-    //                     {1, 0},
-    //                     {0, -1}
-    //                     };
-
-    //     double[][] ans = Matrix.multiply(y, this.stateVector);
-
-    //     this.stateVector = ans;
-        
-    // }
-
-    // public void addHadamard() {
-        
-    //     double[][] h = {
-    //                     {(1/Math.sqrt(2)), (1/Math.sqrt(2))},
-    //                     {(1/Math.sqrt(2)), -(1/Math.sqrt(2))}
-    //                     };
-
-    //     double[][] ans = Matrix.multiply(h, this.stateVector);
-
-    //     this.stateVector = ans;
-        
-    // }
 
     public void displayQubit() {
         System.out.println("\nDisplaying state-vector...");

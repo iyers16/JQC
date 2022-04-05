@@ -3,7 +3,7 @@ package com.example.jqc;
 // import java.lang.Math;
 
 public class Matrix {
-    static Complex[][] multiply(Complex[][] A, Complex[][] B) {
+    public static Complex[][] multiply(Complex[][] A, Complex[][] B) {
         
         int numOfRowsA = A.length;
         int numOfColumnsA = A[0].length;
