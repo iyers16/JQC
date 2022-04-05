@@ -1,12 +1,28 @@
 package com.example.jqc;
 
-public abstract class Gate {
-    private String gateID;
+public class Gate extends GateMatrix implements IGateInfo {
 
-    public String getGateId() {
-        return this.gateID;
+    private String gateId;
+    
+    @Override
+    public String toString() {
+        return(
+            "Gate Information:"
+            + "\n\n"
+            + "---------------------------------------------"
+            + "Gate name: " + this.gateId
+            + "Gate matrix: " + this.getGateMatrix()
+            + "---------------------------------------------"
+        );
     }
+
+    @Override
+    public String getGateId() {
+        return this.gateId;
+    }
+
+    @Override
     public void setGateId(String x) {
-        this.gateID = x;
+        this.gateId = x;
     }
 }

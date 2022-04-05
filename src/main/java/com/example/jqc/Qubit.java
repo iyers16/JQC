@@ -14,7 +14,7 @@ public class Qubit {
         double[][] userQubit = new double[2][1];
 
         for(int i = 0; i < userQubit.length; ++i) {
-            String mssge = "Please input the " + (i == 0 ? "first" : "second") + "vector-value";
+            String mssge = "Please input the " + (i == 0 ? "first" : "second") + "vector-value: ";
             System.out.print(mssge);
             this.stateVector[i][0] = new Complex(scanner.nextDouble());
         }
@@ -53,9 +53,13 @@ public class Qubit {
         return this.stateVector;
     }
 
-    public void addGate(PauliX x) {
+    public void addGate(Gate x) {
         this.stateVector = Matrix.multiply(x.getGateMatrix(), this.stateVector);
         this.stateHistory += x.getGateId();
+    }
+
+    public String getStateHistory() {
+        return this.stateHistory;
     }
     
     // public void addPauliX() {

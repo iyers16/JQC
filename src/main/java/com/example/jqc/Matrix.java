@@ -11,6 +11,12 @@ public class Matrix {
         int numOfColumnsB = B[0].length;
 
         Complex[][] ret = new Complex[numOfRowsA][numOfColumnsB];
+        
+        for (int i = 0; i < numOfRowsA; ++i) {
+            for (int j = 0; j < numOfColumnsB; ++j) {
+                ret[i][j] = new Complex(0.00);
+            }
+        }
 
         if (numOfRowsB != numOfColumnsA) {
             System.out.println("\nMultiplication Not Possible");
