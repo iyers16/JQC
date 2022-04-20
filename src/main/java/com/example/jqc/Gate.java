@@ -1,5 +1,7 @@
 package com.example.jqc;
 
+import com.example.jqc.interfaces.IGateInfo;
+
 public class Gate extends GateMatrix implements IGateInfo {
 
     private String gateId;

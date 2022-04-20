@@ -1,7 +1,23 @@
 package com.example.jqc;
 
+import java.io.File;
+
 public class Main {
+    //Compilation command javac *.java
+    //Execution command java Main.java main.jqc
     public static void main(String[] args) {
+
+        try {
+            String filename = args[0];
+            File file = new File(filename);
+            String absolutePath = file.getAbsolutePath();
+            
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        
+
         QuantumCircuit qc = new QuantumCircuit(1);
         
         qc.getQubit(0).displayQubit();

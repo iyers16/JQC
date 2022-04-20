@@ -48,16 +48,16 @@ public class Qubit {
         }
     }
 
-    public Complex[][] getState() {
+    public Complex[][] getStateVector() {
         return this.stateVector;
     }
 
     public void addGate(Gate x) {
         this.stateVector = Matrix.multiply(x.getGateMatrix(), this.stateVector);
-        this.stateHistory += x.getGateId();
+        this.stateHistory += x.getGateId() + ", ";
     }
 
-    public String getStateHistory() {
+    public String getStateVectorHistory() {
         return this.stateHistory;
     }
 

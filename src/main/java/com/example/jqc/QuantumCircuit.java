@@ -12,6 +12,14 @@ public class QuantumCircuit extends ArrayList<Qubit> {
         }
     }
 
+    public QuantumCircuit(ArrayList<Qubit> qubits) {
+        Qubits = qubits;
+    }
+
+    public QuantumCircuit() {
+        Qubits = new ArrayList<Qubit>();
+    }
+
     public void addQubit() {
         Qubits.add(new Qubit());
     }
