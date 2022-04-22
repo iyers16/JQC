@@ -1,4 +1,4 @@
-add circuit qc1
+add circuit qc1 none
 
 add qubit q1 qc1
 
@@ -8,6 +8,6 @@ add gate paulix q1
 
 add gate hadamard q2
 
-display statevector q1
+display statevector q1 cli
 
-display statevector q2
+display statevector q2 cli
