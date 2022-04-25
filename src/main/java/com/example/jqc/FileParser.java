@@ -1,34 +1,25 @@
 package com.example.jqc;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
-
-import com.example.jqc.interfaces.FileParserInterface;
 
 public class FileParser {
     private String fullPath;
     private String fileName;
     private File file;
-    private FileInputStream fis;
-    private FileOutputStream fos;
-    private Line line;
+    private ArrayList<Line<String>> lineStream;
 
-    public FileParser(String fileName) throws FileNotFoundException {
-        this.fileName = fileName;
-        this.file = new File(this.fileName);
-
-        if (!this.file.exists()) {
-            throw new FileNotFoundException("File \"" + this.fileName +"\" not found");
-        }
-
-        this.fullPath = this.file.getAbsolutePath();        
+    public FileParser(String fileName) throws FileNotFoundException, IOException {
+        this.loadFile(fileName);      
     }
 
-    public void loadFile(String fileName) throws FileNotFoundException {
+    public void loadFile(String fileName) throws FileNotFoundException, IOException {
         this.fileName = fileName;
         this.file = new File(this.fileName);
 
@@ -37,49 +28,37 @@ public class FileParser {
         }
 
         this.fullPath = this.file.getAbsolutePath();
+        this.readFile(this.fullPath);
     }
 
      
-    public void readFile(String filename) throws FileNotFoundException, IOException {    
-        try {
-            fis = new FileInputStream(this.fileName);
+    private void readFile(String filename) throws FileNotFoundException, IOException {  
+        this.lineStream = new ArrayList<Line<String>>();
 
-            //while not reach end of file, parse line
-            while (fis.available() > 0) {
-                this.buildAbstractSyntaxTree(fis);
-            }
+        try (Stream<String> lines = Files
+            .lines(Path.of(filename))) {
+            lines.forEach((line) -> {
+                System.out.println(line);
+                try {
+                    Line<String> lineObj = this.buildAbstractSyntaxTree(line);
+                    this.lineStream.add(lineObj);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (FileNotFoundException e) {
             throw new FileNotFoundException("File \"" + this.fileName +"\" not found");
         } catch (IOException e) {
             throw new IOException("Error reading file \"" + this.fileName +"\"");
         }
-        
     }
 
-     
-    public void buildAbstractSyntaxTree(FileInputStream fis) throws IOException {
-        String fullLine = "";
-        String[] tokens = new String[4];
-
-        //read line
-        int c;
-        while ((c = fis.read()) != '\n') {
-            fullLine += (char)c;
-        }
-
-        //tokenize line
-        tokens = fullLine.split(" ");
-        this.line = new Line(tokens);     
-    }
-
-     
-    public void interpretLine() {
-        // TODO Auto-generated method stub
-        
+    public Line<String> buildAbstractSyntaxTree(String line) throws IOException {
+        return new Line<>(line);
     }
 
     public String getFullPath() {
-        return fullPath;
+        return this.fullPath;
     }
 
     public void setFullPath(String fullPath) {
@@ -87,7 +66,7 @@ public class FileParser {
     }
 
     public String getFileName() {
-        return fileName;
+        return this.fileName;
     }
 
     public void setFileName(String fileName) {
@@ -95,43 +74,18 @@ public class FileParser {
     }
 
     public File getFile() {
-        return file;
+        return this.file;
     }
 
     public void setFile(File file) {
         this.file = file;
     }
 
-    // private String fileName;
-    // private String fileContent;
+    public ArrayList<Line<String>> getLineStream() {
+        return this.lineStream;
+    }
 
-    // public FileParser(String fileName) {
-    //     this.fileName = fileName;
-    // }
-
-    // public String getFileName() {
-    //     return fileName;
-    // }
-
-    // public void setFileName(String fileName) {
-    //     this.fileName = fileName;
-    // }
-
-    // public String getFileContent() {
-    //     return fileContent;
-    // }
-
-    // public void setFileContent(String fileContent) {
-    //     this.fileContent = fileContent;
-    // }
-
-    //  
-    // public String toString() {
-    //     return "FileParser{" +
-    //             "fileName='" + fileName + '\'' +
-    //             ", fileContent='" + fileContent + '\'' +
-    //             '}';
-    // }
-
-    
+    public void setLineStream(ArrayList<Line<String>> lineStream) {
+        this.lineStream = lineStream;
+    }    
 }

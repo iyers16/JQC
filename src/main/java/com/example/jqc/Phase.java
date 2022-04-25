@@ -8,7 +8,8 @@ public class Phase extends Gate {
     };
 
     public Phase() {
-        setGateId("Phase");
-        setGateMatrix(GATE_MATRIX);
+        super("Phase", GATE_MATRIX);
+        // setGateId("Phase");
+        // setGateMatrix(GATE_MATRIX);
     }
 }

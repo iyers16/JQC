@@ -5,7 +5,16 @@ import com.example.jqc.interfaces.IGateInfo;
 public class Gate extends GateMatrix implements IGateInfo {
 
     private String gateId;
+
+    public Gate() {
+        super();
+    }
     
+    public Gate(String id, Complex[][] gateMatrix) {
+        super(gateMatrix);
+        this.gateId = id;
+    }
+
     @Override
     public String toString() {
         return(

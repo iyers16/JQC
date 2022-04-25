@@ -8,7 +8,8 @@ public class PauliY extends Gate {
     };
 
     public PauliY() {
-        setGateId("Pauli-Y");
-        setGateMatrix(GATE_MATRIX);
+        super("Pauli-Y", GATE_MATRIX);
+        // setGateId("Pauli-Y");
+        // setGateMatrix(GATE_MATRIX);
     }
 }

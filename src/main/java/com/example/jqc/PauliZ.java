@@ -8,7 +8,8 @@ public class PauliZ extends Gate {
     };
 
     public PauliZ() {
-        setGateId("Pauli-Z");
-        setGateMatrix(GATE_MATRIX);
+        super("Pauli-Z", GATE_MATRIX);
+        // setGateId("Pauli-Z");
+        // setGateMatrix(GATE_MATRIX);
     }
 }

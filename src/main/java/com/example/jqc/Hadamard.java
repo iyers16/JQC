@@ -8,7 +8,8 @@ public class Hadamard extends Gate {
     };
 
     public Hadamard() {
-        setGateId("Hadamard");
-        setGateMatrix(GATE_MATRIX);
+        super("Hadamard", GATE_MATRIX);
+        // setGateId("Hadamard");
+        // setGateMatrix(GATE_MATRIX);
     }    
 }

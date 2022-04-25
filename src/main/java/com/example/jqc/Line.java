@@ -1,29 +1,27 @@
 package com.example.jqc;
 
-public class Line {
-    private String fullLine;
-    BinaryTree instructionTree;
+public class Line<T> {
+    private T bruteFullLine;
+    private SyntaxTree<T> instructionTree;
 
-    public Line(String[] tokens) {
-        fullLine = "";
-        for (int i = 0; i < tokens.length; i++) {
-            fullLine += tokens[i] + " ";
-        }
-        Node rootNode = BinaryTree.populateSyntaxTree(fullLine);
-        instructionTree = new BinaryTree(rootNode);
+    public Line(T fullLine) {
+        this.bruteFullLine = fullLine;
+        this.instructionTree = new SyntaxTree<>(fullLine);
     }
 
-    public Line(String fullLine) {
-        this.fullLine = fullLine;
-        Node rootNode = BinaryTree.populateSyntaxTree(fullLine);
-        instructionTree = new BinaryTree(rootNode);
+    public T getBruteFullLine() {
+        return this.bruteFullLine;
     }
 
-    public String getFullLine() {
-        return fullLine;
+    public void setBruteFullLine(T fullLine) {
+        this.bruteFullLine = fullLine;
     }
 
-    public void setFullLine(String fullLine) {
-        this.fullLine = fullLine;
-    }    
+    public SyntaxTree<T> getInstructionTree() {
+        return this.instructionTree;
+    }
+
+    public void setInstructionTree(SyntaxTree<T> instructionTree) {
+        this.instructionTree = instructionTree;
+    }
 }
