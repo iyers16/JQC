@@ -1,4 +1,6 @@
-package com.example.jqc;
+package com.example.jqc.quantum.gates;
+
+import com.example.jqc.quantum.Complex;
 
 public class Hadamard extends Gate {
     private static final Complex[][] GATE_MATRIX = 
@@ -9,7 +11,5 @@ public class Hadamard extends Gate {
 
     public Hadamard() {
         super("Hadamard", GATE_MATRIX);
-        // setGateId("Hadamard");
-        // setGateMatrix(GATE_MATRIX);
     }    
 }

@@ -1,4 +1,6 @@
-package com.example.jqc;
+package com.example.jqc.quantum.gates;
+
+import com.example.jqc.quantum.Complex;
 
 public class Phase extends Gate {
     private static final Complex[][] GATE_MATRIX = 
@@ -9,7 +11,5 @@ public class Phase extends Gate {
 
     public Phase() {
         super("Phase", GATE_MATRIX);
-        // setGateId("Phase");
-        // setGateMatrix(GATE_MATRIX);
     }
 }

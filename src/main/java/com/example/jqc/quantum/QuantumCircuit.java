@@ -1,4 +1,4 @@
-package com.example.jqc;
+package com.example.jqc.quantum;
 
 import java.util.ArrayList;
 
@@ -20,19 +20,19 @@ public class QuantumCircuit extends ArrayList<Qubit> {
         Qubits = new ArrayList<Qubit>();
     }
 
-    public void addQubit() {
+    public final void addQubit() {
         Qubits.add(new Qubit());
     }
 
-    public void addQubit(Qubit qubit) {
+    public final void addQubit(Qubit qubit) {
         Qubits.add(qubit);
     }
     
-    public ArrayList<Qubit> getQubits() {
+    public final ArrayList<Qubit> getQubits() {
         return this.Qubits;
     }
 
-    public Qubit getQubit(int indexOfQubit) {
+    public final Qubit getQubit(int indexOfQubit) {
         return this.Qubits.get(indexOfQubit);
     }
 }

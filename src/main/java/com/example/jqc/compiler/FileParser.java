@@ -1,4 +1,4 @@
-package com.example.jqc;
+package com.example.jqc.compiler;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,8 +8,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import com.example.jqc.interfaces.FileParserInterface;
 
-public class FileParser {
+
+public class FileParser implements FileParserInterface {
     private String fullPath;
     private String fileName;
     private File file;
@@ -19,7 +21,7 @@ public class FileParser {
         this.loadFile(fileName);      
     }
 
-    public void loadFile(String fileName) throws FileNotFoundException, IOException {
+    public final void loadFile(String fileName) throws FileNotFoundException, IOException {
         this.fileName = fileName;
         this.file = new File(this.fileName);
 
@@ -32,7 +34,7 @@ public class FileParser {
     }
 
      
-    private void readFile(String filename) throws FileNotFoundException, IOException {  
+    private final void readFile(String filename) throws FileNotFoundException, IOException {  
         this.lineStream = new ArrayList<Line<String>>();
 
         try (Stream<String> lines = Files
@@ -53,39 +55,41 @@ public class FileParser {
         }
     }
 
-    public Line<String> buildAbstractSyntaxTree(String line) throws IOException {
+    public final Line<String> buildAbstractSyntaxTree(String line) throws IOException {
         return new Line<>(line);
     }
 
-    public String getFullPath() {
+    
+    //getters and setters
+    public final String getFullPath() {
         return this.fullPath;
     }
 
-    public void setFullPath(String fullPath) {
+    public final void setFullPath(String fullPath) {
         this.fullPath = fullPath;
     }
 
-    public String getFileName() {
+    public final String getFileName() {
         return this.fileName;
     }
 
-    public void setFileName(String fileName) {
+    public final void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public File getFile() {
+    public final File getFile() {
         return this.file;
     }
 
-    public void setFile(File file) {
+    public final void setFile(File file) {
         this.file = file;
     }
 
-    public ArrayList<Line<String>> getLineStream() {
+    public final ArrayList<Line<String>> getLineStream() {
         return this.lineStream;
     }
 
-    public void setLineStream(ArrayList<Line<String>> lineStream) {
+    public final void setLineStream(ArrayList<Line<String>> lineStream) {
         this.lineStream = lineStream;
     }    
 }

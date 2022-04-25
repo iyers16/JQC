@@ -1,6 +1,6 @@
 package com.example.jqc.interfaces;
 
-public interface IGateInfo {
+public interface GateInfoInterface {
     String getGateId();
     void setGateId(String x);
     String toString();

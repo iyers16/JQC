@@ -1,12 +1,14 @@
-package com.example.jqc;
+package com.example.jqc.quantum;
 
 import java.util.Scanner;
+
+import com.example.jqc.quantum.gates.Gate;
 
 public class Qubit {
     private Complex[][] stateVector;
     private String stateHistory;
 
-    public void userPopulateQubit() {
+    public final void userPopulateQubit() {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -48,20 +50,20 @@ public class Qubit {
         }
     }
 
-    public Complex[][] getStateVector() {
+    public final Complex[][] getStateVector() {
         return this.stateVector;
     }
 
-    public void addGate(Gate x) {
+    public final void addGate(Gate x) {
         this.stateVector = Matrix.multiply(x.getGateMatrix(), this.stateVector);
         this.stateHistory += x.getGateId() + ", ";
     }
 
-    public String getStateVectorHistory() {
+    public final String getStateVectorHistory() {
         return this.stateHistory;
     }
 
-    public void displayQubit() {
+    public final void displayQubit() {
         System.out.println("\nDisplaying state-vector...");
         for(int i = 0; i < 2; ++i) {
             System.out.println("[ " + this.stateVector[i][0] + " ]");

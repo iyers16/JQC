@@ -1,4 +1,4 @@
-package com.example.jqc;
+package com.example.jqc.compiler;
 
 public class Line<T> {
     private T bruteFullLine;
@@ -9,19 +9,19 @@ public class Line<T> {
         this.instructionTree = new SyntaxTree<>(fullLine);
     }
 
-    public T getBruteFullLine() {
+    public final T getBruteFullLine() {
         return this.bruteFullLine;
     }
 
-    public void setBruteFullLine(T fullLine) {
+    public final void setBruteFullLine(T fullLine) {
         this.bruteFullLine = fullLine;
     }
 
-    public SyntaxTree<T> getInstructionTree() {
+    public final SyntaxTree<T> getInstructionTree() {
         return this.instructionTree;
     }
 
-    public void setInstructionTree(SyntaxTree<T> instructionTree) {
+    public final void setInstructionTree(SyntaxTree<T> instructionTree) {
         this.instructionTree = instructionTree;
     }
 }

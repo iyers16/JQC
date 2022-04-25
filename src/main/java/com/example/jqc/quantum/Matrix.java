@@ -1,9 +1,8 @@
-package com.example.jqc;
+package com.example.jqc.quantum;
 
-// import java.lang.Math;
 
 public class Matrix {
-    public static Complex[][] multiply(Complex[][] A, Complex[][] B) {
+    public static final Complex[][] multiply(Complex[][] A, Complex[][] B) {
         
         int numOfRowsA = A.length;
         int numOfColumnsA = A[0].length;

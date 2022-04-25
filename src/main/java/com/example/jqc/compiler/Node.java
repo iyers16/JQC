@@ -1,4 +1,4 @@
-package com.example.jqc;
+package com.example.jqc.compiler;
 
 public class Node<T> {
     private T data;
@@ -17,7 +17,7 @@ public class Node<T> {
         this.rightChild = null;
     }
 
-    public void appendChild(T data) {
+    public final void appendChild(T data) {
         Node<T> newChild = new Node<>(data);
         if (this.leftChild == null) {
             this.leftChild = newChild;
@@ -26,36 +26,36 @@ public class Node<T> {
         }
     }
 
-    public T getData() {
+    public final T getData() {
         return this.data;
     }
 
-    public Node<T> getLeftChild() {
+    public final Node<T> getLeftChild() {
         return this.leftChild;
     }
 
-    public Node<T> getRightChild() {
+    public final Node<T> getRightChild() {
         return this.rightChild;
     }
 
-    public void setData(T data) {
+    public final void setData(T data) {
         this.data = data;
     }
 
-    public void setLeftChild(Node<T> leftChild) {
+    public final void setLeftChild(Node<T> leftChild) {
         this.leftChild = leftChild;
     }
 
-    public void setRightChild(Node<T> rightChild) {
+    public final void setRightChild(Node<T> rightChild) {
         this.rightChild = rightChild;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return (String) this.data;
     }
 
-    public void displayNode() {
+    public final void displayNode() {
         System.out.println(this.data);
     }
 

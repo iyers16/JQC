@@ -1,14 +1,24 @@
-package com.example.jqc;
+package com.example.jqc.compiler;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FileInterpreter {
-    public HashMap<String, QuantumCircuit> circuitMap;
-    public HashMap<String, Qubit> qubitMap;
-    public HashMap<String, Gate> gateMap;
+import com.example.jqc.interfaces.FileInterpreterInterface;
+import com.example.jqc.quantum.QuantumCircuit;
+import com.example.jqc.quantum.Qubit;
+import com.example.jqc.quantum.gates.Gate;
+import com.example.jqc.quantum.gates.Hadamard;
+import com.example.jqc.quantum.gates.PauliX;
+import com.example.jqc.quantum.gates.PauliY;
+import com.example.jqc.quantum.gates.PauliZ;
+import com.example.jqc.quantum.gates.Phase;
+
+public class FileInterpreter implements FileInterpreterInterface {
+    private HashMap<String, QuantumCircuit> circuitMap;
+    private HashMap<String, Qubit> qubitMap;
+    private HashMap<String, Gate> gateMap;
     
 
     public FileInterpreter() {
@@ -17,7 +27,7 @@ public class FileInterpreter {
         this.gateMap = new HashMap<String, Gate>();
     }
 
-    public void execute(ArrayList<Line<String>> lines) {
+    public final void execute(ArrayList<Line<String>> lines) {
         for(Line<String> line : lines) {
             this.parseAction(
                 line.getInstructionTree().getActionToken().getData(), 
@@ -26,7 +36,7 @@ public class FileInterpreter {
         }
     }
 
-    private void parseAction(String a, Line<String> line) {
+    public final void parseAction(String a, Line<String> line) {
         switch (a) {
             case "add":
                 this.parseAdd(line);
@@ -43,7 +53,7 @@ public class FileInterpreter {
         }
     }
 
-    private void parseDisplay(Line<String> line) {
+    public final void parseDisplay(Line<String> line) {
         String type = line.getInstructionTree().getTypeToken().getData();
         String target = line.getInstructionTree().getTargetToken().getData();
         String origin = line.getInstructionTree().getOriginToken().getData();
@@ -61,7 +71,7 @@ public class FileInterpreter {
         }
 	}
 
-	private void displayToCLI(String type, String origin) {
+	public final void displayToCLI(String type, String origin) {
         switch (type) {
             case "statevector":
                 this.displayStateVector(origin);
@@ -78,15 +88,15 @@ public class FileInterpreter {
         }
     }
 
-    private void displayGate(String origin) {
-        System.out.println(this.gateMap.get(origin).getGateId() + ": " + this.gateMap.get(origin).getGateMatrix());
+    public final void displayGate(String origin) {
+        System.out.println(this.gateMap.get(origin).toString());
     }
 
-    private void displayQubit(String origin) {
+    public final void displayQubit(String origin) {
         System.out.println(this.qubitMap.get(origin).getStateVectorHistory());
     }
 
-    private void displayStateVector(String origin) {
+    public final void displayStateVector(String origin) {
         Qubit qubit = this.qubitMap.get(origin);
         if (qubit == null) {
             System.out.println("Qubit " + origin + " does not exist!");
@@ -95,7 +105,7 @@ public class FileInterpreter {
         }
     }
 
-    private void displayToFile(String type, String origin, String target) {
+    public final void displayToFile(String type, String origin, String target) {
         try {
             FileWriter fw = new FileWriter(target);
             switch (type) {
@@ -118,7 +128,7 @@ public class FileInterpreter {
         
     }
 
-    private void displayGate(String origin, FileWriter fw) {
+    public final void displayGate(String origin, FileWriter fw) {
         try {
             fw.write(this.gateMap.get(origin).getGateId() + ": " + this.gateMap.get(origin).getGateMatrix() + "\n");
         } catch (IOException e) {
@@ -126,7 +136,7 @@ public class FileInterpreter {
         }
     }
 
-    private void displayQubit(String origin, FileWriter fw) {
+    public final void displayQubit(String origin, FileWriter fw) {
         try {
             fw.write(this.qubitMap.get(origin).getStateVectorHistory() + "\n");
         } catch (IOException e) {
@@ -134,7 +144,7 @@ public class FileInterpreter {
         }
     }
 
-    private void displayStateVector(String origin, FileWriter fw) {
+    public final void displayStateVector(String origin, FileWriter fw) {
         Qubit qubit = this.qubitMap.get(origin);
         if (qubit == null) {
             System.out.println("Qubit " + origin + " does not exist!");
@@ -147,7 +157,7 @@ public class FileInterpreter {
         }
     }
 
-    private void parseAdd(Line<String> line) {
+    public final void parseAdd(Line<String> line) {
         String type = line.getInstructionTree().getTypeToken().getData();
         String target = line.getInstructionTree().getTargetToken().getData();
         String origin = line.getInstructionTree().getOriginToken().getData();
@@ -180,7 +190,7 @@ public class FileInterpreter {
         }
     }
 
-    private void parseGate(SyntaxTree<String> syntaxTree) {
+    public final void parseGate(SyntaxTree<String> syntaxTree) {
         String gateName = syntaxTree.getOriginToken().getData();
         String target = syntaxTree.getTargetToken().getData();
         switch(gateName) {

@@ -1,4 +1,6 @@
-package com.example.jqc;
+package com.example.jqc.quantum.gates;
+
+import com.example.jqc.quantum.Complex;
 
 public class PauliZ extends Gate {
     private static final Complex[][] GATE_MATRIX = 
@@ -9,7 +11,5 @@ public class PauliZ extends Gate {
 
     public PauliZ() {
         super("Pauli-Z", GATE_MATRIX);
-        // setGateId("Pauli-Z");
-        // setGateMatrix(GATE_MATRIX);
     }
 }

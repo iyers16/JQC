@@ -1,4 +1,4 @@
-package com.example.jqc;
+package com.example.jqc.quantum;
 
 public class Complex extends Object{
     private double real;

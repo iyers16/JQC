@@ -1,4 +1,4 @@
-package com.example.jqc;
+package com.example.jqc.compiler;
 
 public class SyntaxTree<T> {
     private Node<T> actionToken;
@@ -39,46 +39,46 @@ public class SyntaxTree<T> {
     // l        r         l        r |origin        null         null        null  |
 
 
-    public Node<T> getActionToken() {
+    public final Node<T> getActionToken() {
         return this.actionToken;
     }
 
-    public void setActionToken(Node<T> actionToken) {
+    public final void setActionToken(Node<T> actionToken) {
         this.actionToken = actionToken;
     }
 
-    public Node<T> getTypeToken() {
+    public final Node<T> getTypeToken() {
         return this.typeToken;
     }
 
-    public void setTypeToken(Node<T> typeToken) {
+    public final void setTypeToken(Node<T> typeToken) {
         this.typeToken = typeToken;
         this.actionToken.setLeftChild(this.typeToken);
     }
 
-    public Node<T> getOriginToken() {
+    public final Node<T> getOriginToken() {
         return this.originToken;
     }
 
-    public void setOriginToken(Node<T> originToken) {
+    public final void setOriginToken(Node<T> originToken) {
         this.originToken = originToken;
         this.actionToken.getLeftChild().setRightChild(this.originToken);
     }
 
-    public Node<T> getTargetToken() {
+    public final Node<T> getTargetToken() {
         return this.targetToken;
     }
 
-    public void setTargetToken(Node<T> targetToken) {
+    public final void setTargetToken(Node<T> targetToken) {
         this.targetToken = targetToken;
         this.actionToken.setRightChild(this.targetToken);
     }
 
-    public void displaySyntaxTree() {
+    public final void displaySyntaxTree() {
         this.displaySyntaxTree(this.actionToken);
     }
 
-    public void displaySyntaxTree(Node<T> node) {
+    public final void displaySyntaxTree(Node<T> node) {
         if (node != null) {
             System.out.println(node.getData());
             this.displaySyntaxTree(node.getLeftChild());
