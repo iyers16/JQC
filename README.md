@@ -2,7 +2,9 @@
 
 ## JQC Syntax:
 - One-line commands
-- Not case-specific
-- Whitespace-specific
-- Command template: [Action] [Type] [Target] *[Optional: 2nd target]* 
-- Structure like verbal English commands: "Do this action to that type's target *[Optional: to this other target]*"
+- Case-specific + Whitespace-specific
+- File I/O must be specified as such
+    - Input file will be requested at the start of the program
+    - Output file may be stated in the JQC commands itself as such "file:path/to/file" in the target token
+- Command template: [Action] [Type] [Origin] [Target] 
+- Structure like verbal English commands: "Do this action to that type's target"
