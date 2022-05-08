@@ -1,5 +1,7 @@
 package com.example.jqc.quantum.gates;
 
+import java.util.Arrays;
+
 import com.example.jqc.interfaces.GateInfoInterface;
 import com.example.jqc.quantum.Complex;
 
@@ -20,7 +22,7 @@ public class Gate extends GateMatrix implements GateInfoInterface {
             "Gate Information:"
             + "\n\n---------------------------------------------\n"
             + "Gate name: " + this.gateId
-            + "Gate matrix: " + this.getGateMatrix()
+            + "Gate matrix: " + Arrays.toString(this.getGateMatrix())
             + "\n---------------------------------------------\n"
         );
     }

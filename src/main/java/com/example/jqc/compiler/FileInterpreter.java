@@ -27,185 +27,122 @@ public class FileInterpreter implements FileInterpreterInterface {
         this.gateMap = new HashMap<String, Gate>();
     }
 
-    public final void execute(ArrayList<Line<String>> lines) {
-        for(Line<String> line : lines) {
-            this.parseAction(
-                line.getInstructionTree().getActionToken().getData(), 
-                line
-            );
-        }
-    }
-
-    public final void parseAction(String a, Line<String> line) {
-        switch (a) {
-            case "add":
-                this.parseAdd(line);
-                break;
-            case "display":
-                this.parseDisplay(line);
-                break;
-            case "terminate":
-                FileInterpreter.terminateAllProcesses();
-                break;
-            default:
-                System.out.println("Invalid action token!");
-                break;
-        }
-    }
-
-    public final void parseDisplay(Line<String> line) {
-        String type = line.getInstructionTree().getTypeToken().getData();
-        String target = line.getInstructionTree().getTargetToken().getData();
-        String origin = line.getInstructionTree().getOriginToken().getData();
-        switch (target) {
-            case "cli":
-                this.displayToCLI(type, origin);
-                break;
-            case "file":
-                this.displayToFile(type, origin, target);
-                break;
-            default:
-                System.out.println("Invalid target token!");
-                break;
-
-        }
-	}
-
-	public final void displayToCLI(String type, String origin) {
-        switch (type) {
-            case "statevector":
-                this.displayStateVector(origin);
-                break;
-            case "qubit":
-                this.displayQubit(origin);
-                break;
-            case "gate":
-                this.displayGate(origin);
-                break;
-            default:
-                System.out.println("Invalid display type!");
-                break;
-        }
-    }
-
-    public final void displayGate(String origin) {
-        System.out.println(this.gateMap.get(origin).toString());
-    }
-
-    public final void displayQubit(String origin) {
-        System.out.println(this.qubitMap.get(origin).getStateVectorHistory());
-    }
-
-    public final void displayStateVector(String origin) {
-        Qubit qubit = this.qubitMap.get(origin);
-        if (qubit == null) {
-            System.out.println("Qubit " + origin + " does not exist!");
-        } else {
-            qubit.displayQubit();
-        }
-    }
-
-    public final void displayToFile(String type, String origin, String target) {
+    public final void execute(ArrayList<Line<String>> lines) throws IllegalArgumentException, 
+                                                            IOException, 
+                                                            NullPointerException {
+        
         try {
-            FileWriter fw = new FileWriter(target);
-            switch (type) {
-                case "statevector":
-                    this.displayStateVector(origin, fw);
+            for(Line<String> line : lines) {
+                this.parseAction(
+                    line.getInstructionTree().getActionToken().getData(), 
+                    line
+                );
+            }
+        } catch (NullPointerException e) {
+            throw e;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    public final void parseAction(String a, Line<String> line) throws IOException, 
+                                                                IllegalArgumentException{
+        
+        try {
+            switch (a) {
+                case "add":
+                    this.parseAdd(line);
                     break;
-                case "qubit":
-                    this.displayQubit(origin, fw);
+                case "display":
+                    this.parseDisplay(line);
                     break;
-                case "gate":
-                    this.displayGate(origin, fw);
+                case "terminate":
+                    FileInterpreter.terminateAllProcesses();
                     break;
                 default:
-                    System.out.println("Invalid display type!");
-                    break;
+                    System.out.println("Invalid action token!");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-    }
-
-    public final void displayGate(String origin, FileWriter fw) {
-        try {
-            fw.write(this.gateMap.get(origin).getGateId() + ": " + this.gateMap.get(origin).getGateMatrix() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch(NullPointerException e) {
+            throw e;
+        } catch(IllegalArgumentException e) {
+            throw e;
         }
     }
 
-    public final void displayQubit(String origin, FileWriter fw) {
-        try {
-            fw.write(this.qubitMap.get(origin).getStateVectorHistory() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public final void displayStateVector(String origin, FileWriter fw) {
-        Qubit qubit = this.qubitMap.get(origin);
-        if (qubit == null) {
-            System.out.println("Qubit " + origin + " does not exist!");
-        } else {
-            try {
-                fw.write(qubit.getStateVectorHistory() + "\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public final void parseAdd(Line<String> line) {
+    public final void parseAdd(Line<String> line) throws NullPointerException, 
+                                                        IllegalArgumentException {
         String type = line.getInstructionTree().getTypeToken().getData();
         String target = line.getInstructionTree().getTargetToken().getData();
         String origin = line.getInstructionTree().getOriginToken().getData();
-        switch(type) {
-            case "circuit":
-                this.circuitMap.put(
-                    origin, 
-                    new QuantumCircuit()
-                );
-                break;
-            case "qubit":
-                //creating qubit into map using origin as key in state 0
-                this.qubitMap.put(
-                    origin, 
-                    new Qubit(0)
-                );
-                //pushing qubit into circuit using circuit's target as key
-                this.circuitMap.get(
-                    target
-                ).addQubit(this.qubitMap.get(
-                    origin
-                ));
-                break;
-            case "gate":
-                this.parseGate(line.getInstructionTree());
-                break;
-            default:
-                System.out.println("Invalid type!");
-                break;
-        }
+
+        try {
+            switch(type) {
+                case "circuit":
+                    this.circuitMap.put(
+                        origin, 
+                        new QuantumCircuit()
+                    );
+                    break;
+                case "qubit":
+                    //creating qubit into map using origin as key in state 0
+                    this.qubitMap.put(
+                        origin, 
+                        new Qubit(0)
+                    );
+                    //pushing qubit into circuit using circuit's target as key
+                    QuantumCircuit circuit = this.circuitMap.get(target);
+                    Qubit qubit = this.qubitMap.get(origin);
+                    if(qubit == null) {
+                        throw new NullPointerException("Invalid Qubit!");
+                    } else if(circuit == null) {
+                        throw new NullPointerException("Invalid Circuit!");
+                    } else {
+                        circuit.addQubit(qubit);
+                    }
+                    break;
+                case "gate":
+                    this.parseGate(line.getInstructionTree());
+                    break;
+                default:
+                    System.out.println("Invalid type!");
+                    throw new IllegalArgumentException("Invalid type!");
+            }
+        } catch (NullPointerException e) {
+            throw e;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }    
     }
 
-    public final void parseGate(SyntaxTree<String> syntaxTree) {
+    public final void parseGate(SyntaxTree<String> syntaxTree) throws IllegalArgumentException,
+                                                                NullPointerException {
         String gateName = syntaxTree.getOriginToken().getData();
         String target = syntaxTree.getTargetToken().getData();
-        switch(gateName) {
+        try {
+            switch(gateName) {
             case "hadamard":
                 this.gateMap.put(
                     gateName, 
                     new Hadamard()
                 );
 
-                this.qubitMap.get(
+                Qubit tmph = this.qubitMap.get(
                     target
-                ).addGate(this.gateMap.get(
+                );
+                Gate tmpgh = this.gateMap.get(
                     gateName
-                ));
+                );
 
+                if(tmph == null) {
+                    throw new NullPointerException("Invalid qubit!");
+                } else if(tmpgh == null) {
+                    throw new NullPointerException("Invalid gate!");
+                } else {
+                    tmph.addGate(tmpgh);
+                }
                 break;
             case "paulix":
                 this.gateMap.put(
@@ -213,12 +150,20 @@ public class FileInterpreter implements FileInterpreterInterface {
                     new PauliX()
                 );
 
-                this.qubitMap.get(
+                Qubit tmpx = this.qubitMap.get(
                     target
-                ).addGate(this.gateMap.get(
+                );
+                Gate tmpgx = this.gateMap.get(
                     gateName
-                ));
+                );
 
+                if(tmpx == null) {
+                    throw new NullPointerException("Invalid qubit!");
+                } else if(tmpgx == null) {
+                    throw new NullPointerException("Invalid gate!");
+                } else {
+                    tmpx.addGate(tmpgx);
+                }
                 break;
             case "pauliy":
                 this.gateMap.put(
@@ -226,12 +171,20 @@ public class FileInterpreter implements FileInterpreterInterface {
                     new PauliY()
                 );
 
-                this.qubitMap.get(
+                Qubit tmpy = this.qubitMap.get(
                     target
-                ).addGate(this.gateMap.get(
+                );
+                Gate tmpgy = this.gateMap.get(
                     gateName
-                ));
+                );
 
+                if(tmpy == null) {
+                    throw new NullPointerException("Invalid qubit!");
+                } else if(tmpgy == null) {
+                    throw new NullPointerException("Invalid gate!");
+                } else {
+                    tmpy.addGate(tmpgy);
+                }
                 break;
             case "pauliz":
                 this.gateMap.put(
@@ -239,12 +192,20 @@ public class FileInterpreter implements FileInterpreterInterface {
                     new PauliZ()
                 );
 
-                this.qubitMap.get(
+                Qubit tmpz = this.qubitMap.get(
                     target
-                ).addGate(this.gateMap.get(
+                );
+                Gate tmpgz = this.gateMap.get(
                     gateName
-                ));
+                );
 
+                if(tmpz == null) {
+                    throw new NullPointerException("Invalid qubit!");
+                } else if(tmpgz == null) {
+                    throw new NullPointerException("Invalid gate!");
+                } else {
+                    tmpz.addGate(tmpgz);
+                }
                 break;
             case "phase":
                 this.gateMap.put(
@@ -252,12 +213,20 @@ public class FileInterpreter implements FileInterpreterInterface {
                     new Phase()
                 );
 
-                this.qubitMap.get(
+                Qubit tmpp = this.qubitMap.get(
                     target
-                ).addGate(this.gateMap.get(
+                );
+                Gate tmpgp = this.gateMap.get(
                     gateName
-                ));
+                );
 
+                if(tmpp == null) {
+                    throw new NullPointerException("Invalid qubit!");
+                } else if(tmpgp == null) {
+                    throw new NullPointerException("Invalid gate!");
+                } else {
+                    tmpp.addGate(tmpgp);
+                }
                 break;
             /*
             case "controlledNot":
@@ -299,10 +268,146 @@ public class FileInterpreter implements FileInterpreterInterface {
             */
             default:
                 System.out.println("Invalid Gate!");
-                break;
+                throw new IllegalArgumentException("Invalid Gate!");
+        }
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (NullPointerException e) {
+            throw e;
         }
     }
 
+    public final void parseDisplay(Line<String> line) throws IOException, 
+                                                            NullPointerException, 
+                                                            IllegalArgumentException {
+        String type = line.getInstructionTree().getTypeToken().getData();
+        String target = line.getInstructionTree().getTargetToken().getData();
+        String origin = line.getInstructionTree().getOriginToken().getData();
+        try {
+            switch (target) {
+                case "cli":
+                    this.displayToCLI(type, origin);
+                    break;
+                case "file":
+                    this.displayToFile(type, origin, target);
+                    break;
+                default:
+                    System.out.println("Invalid target token!");
+                    throw new IllegalArgumentException("Invalid target token!");
+    
+            }
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (NullPointerException e) {
+            throw e;
+        } catch (IOException e) {
+            throw e;
+        }
+        
+	}
+
+	public final void displayToCLI(String type, String origin) throws IllegalArgumentException {
+        switch (type) {
+            case "statevector":
+                this.displayStateVector(origin);
+                break;
+            case "qubit":
+                this.displayQubit(origin);
+                break;
+            case "gate":
+                this.displayGate(origin);
+                break;
+            default:
+                System.out.println("Invalid display type!");
+                throw new IllegalArgumentException("Invalid display type!");
+        }
+    }
+
+    public final void displayGate(String origin) throws NullPointerException{
+        Gate gate = this.gateMap.get(origin);
+        if(gate == null) {
+            throw new NullPointerException("Gate not found!");
+        } else {
+            System.out.println(gate.toString());
+        }
+    }
+
+    public final void displayQubit(String origin) throws NullPointerException{
+        Qubit qubit = this.qubitMap.get(origin);
+        if (qubit == null) {
+            throw new NullPointerException("Qubit not found!");
+        } else {
+            System.out.println(qubit.getStateVectorHistory());
+        }
+        
+    }
+
+    public final void displayStateVector(String origin) throws NullPointerException{
+        Qubit qubit = this.qubitMap.get(origin);
+        if (qubit == null) {
+            throw new NullPointerException("Invalid qubit!");
+        } else {
+            qubit.displayQubit();
+        }
+    }
+
+    public final void displayToFile(String type, String origin, String target) throws IOException, NullPointerException, IllegalArgumentException {
+        try {
+            FileWriter fw = new FileWriter(target);
+            switch (type) {
+                case "statevector":
+                    this.displayStateVector(origin, fw);
+                    break;
+                case "qubit":
+                    this.displayQubit(origin, fw);
+                    break;
+                case "gate":
+                    this.displayGate(origin, fw);
+                    break;
+                default:
+                    System.out.println("Invalid display type!");
+                    fw.close();
+                    throw new IllegalArgumentException("Invalid display type!");
+            }
+        } catch (IOException e) {
+            throw e;
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (NullPointerException e) {
+            throw e;
+        }
+        
+    }
+
+    public final void displayGate(String origin, FileWriter fw) throws IOException {
+        try {
+            fw.write(this.gateMap.get(origin).getGateId() + ": " + this.gateMap.get(origin).getGateMatrix() + "\n");
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public final void displayQubit(String origin, FileWriter fw) throws IOException {
+        try {
+            fw.write(this.qubitMap.get(origin).getStateVectorHistory() + "\n");
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
+    }
+
+    public final void displayStateVector(String origin, FileWriter fw) throws IOException, NullPointerException {
+        Qubit qubit = this.qubitMap.get(origin);
+        if (qubit == null) {
+            throw new NullPointerException("Invalid qubit!");
+        } else {
+            try {
+                fw.write(qubit.getStateVectorHistory() + "\n");
+            } catch (IOException e) {
+                throw new IOException(e);
+            }
+        }
+    }
     public static void terminateAllProcesses() {
         System.out.println("Forcefully terminating all processes...");
         System.exit(0);

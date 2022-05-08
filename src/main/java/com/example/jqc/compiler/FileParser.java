@@ -40,7 +40,7 @@ public class FileParser implements FileParserInterface {
         try (Stream<String> lines = Files
             .lines(Path.of(filename))) {
             lines.forEach((line) -> {
-                System.out.println(line);
+                // System.out.println(line);
                 try {
                     Line<String> lineObj = this.buildAbstractSyntaxTree(line);
                     this.lineStream.add(lineObj);
