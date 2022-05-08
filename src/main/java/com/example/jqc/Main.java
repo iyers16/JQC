@@ -13,10 +13,14 @@ public class Main {
         System.out.print("Provide valid absolute file path to JQC code file (by default it will select the main.jqc file in the same folder as your Main.java): ");
         Scanner scanner = new Scanner(System.in);
         String fileName = scanner.nextLine();
-
         String defaultFileName = "/home/iyers16/Programs/JQC/jqc/src/main/java/com/example/jqc/main.jqc";
 
-        if(fileName.equals("") || fileName.isBlank() || fileName.isEmpty()) {
+
+        if(fileName.equals("") 
+            || fileName.isBlank() 
+            || fileName.isEmpty() 
+            || fileName.equals(" ") 
+            || fileName.equals("\n")) {
             fileName = defaultFileName;
         }
         scanner.close();

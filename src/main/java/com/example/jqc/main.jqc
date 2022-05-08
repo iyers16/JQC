@@ -9,4 +9,4 @@ add gate pauliy q1
 display statevector q1 cli
 add gate hadamard q1
 display statevector q1 cli
-display gate hadamard cli
+display gate hadamard file:/home/iyers16/Programs/JQC/jqc/src/main/java/com/example/jqc/out.jqc

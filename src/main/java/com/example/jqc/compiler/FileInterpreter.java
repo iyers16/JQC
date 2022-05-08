@@ -284,12 +284,14 @@ public class FileInterpreter implements FileInterpreterInterface {
         String target = line.getInstructionTree().getTargetToken().getData();
         String origin = line.getInstructionTree().getOriginToken().getData();
         try {
-            switch (target) {
+            //split target string on colon
+            String[] targetSplit = target.split(":");
+            switch (targetSplit[0]) {
                 case "cli":
                     this.displayToCLI(type, origin);
                     break;
                 case "file":
-                    this.displayToFile(type, origin, target);
+                    this.displayToFile(type, origin, targetSplit[1]);
                     break;
                 default:
                     System.out.println("Invalid target token!");
@@ -340,7 +342,6 @@ public class FileInterpreter implements FileInterpreterInterface {
         } else {
             System.out.println(qubit.getStateVectorHistory());
         }
-        
     }
 
     public final void displayStateVector(String origin) throws NullPointerException{
@@ -370,6 +371,7 @@ public class FileInterpreter implements FileInterpreterInterface {
                     fw.close();
                     throw new IllegalArgumentException("Invalid display type!");
             }
+            fw.close();
         } catch (IOException e) {
             throw e;
         } catch (IllegalArgumentException e) {
@@ -382,7 +384,7 @@ public class FileInterpreter implements FileInterpreterInterface {
 
     public final void displayGate(String origin, FileWriter fw) throws IOException {
         try {
-            fw.write(this.gateMap.get(origin).getGateId() + ": " + this.gateMap.get(origin).getGateMatrix() + "\n");
+            fw.write(this.gateMap.get(origin).getGateId() + ": " + this.gateMap.get(origin).toString() + "\n");
         } catch (IOException e) {
             throw new IOException(e);
         }

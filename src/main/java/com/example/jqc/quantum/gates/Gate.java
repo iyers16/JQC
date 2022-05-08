@@ -18,11 +18,18 @@ public class Gate extends GateMatrix implements GateInfoInterface {
 
     @Override
     public final String toString() {
+        String matrixSet = "[";
+        for (Complex[] row : this.getGateMatrix()) {
+            matrixSet += Arrays.toString(row) + ",\n";
+        }
+        matrixSet = matrixSet.substring(0, matrixSet.length() - 1);
+        matrixSet += "]";
+
         return(
             "Gate Information:"
             + "\n\n---------------------------------------------\n"
-            + "Gate name: " + this.gateId
-            + "Gate matrix: " + Arrays.toString(this.getGateMatrix())
+            + "\nGate name: " + this.gateId
+            + "\nGate matrix: \n" + matrixSet
             + "\n---------------------------------------------\n"
         );
     }
